@@ -1,12 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson.Serialization.Conventions;
 using ZooApp.Models;
 
 namespace ZooApp.Controllers
 {
     public class AnimalController : Controller
     {
+        private static Random random = new Random();
+        private object GenerateRandomId(int v)
+        {
+            string strarr = "abcdefghijklmnopqrstuvwxyz123456789";
+            return new string(Enumerable.Repeat(strarr, v).Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         // GET: AnimalController
         public ActionResult Index()
         {
@@ -32,6 +38,23 @@ namespace ZooApp.Controllers
         {
             try
             {
+                Connection.ConnectToMongoService();
+                Connection.AnimalCollection = Connection.Db.GetCollection<Animal>("animals");
+
+                // Generating ID
+
+                Object id = GenerateRandomId(24);
+
+                Connection.AnimalCollection.InsertOneAsync(new Animal
+                {
+                    Id = id,
+                    Name = collection["Name"],
+                    Racial = collection["Racial"],
+                    Description = collection["Description"],
+                    Habitat = collection["Habitat"],
+                    User = collection["User"]
+                });
+
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -74,34 +97,12 @@ namespace ZooApp.Controllers
         {
             try
             {
-                Connection.ConnectToMongoService();
-                Connection.AnimalCollection = Connection.Db.GetCollection<Animal>("animal");
-
-                // Generating ID
-
-                Connection.AnimalCollection.InsertOneAsync(new Animal
-                {
-                    Id = GenerateRandomId(24),
-                    Name = collection["Name"],
-                    Racial = collection["Racial"],
-                    Description = collection["Description"],
-                    Habitat = collection["Habitat"],
-                    User = collection["User"]
-                });
-
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
                 return View();
             }
-        }
-
-        private static Random random = new Random();
-        private object GenerateRandomId(int v)
-        {
-            string strarr = "abcdefghijklmnopqrstuvwxyz123456789";
-            return new string(Enumerable.Repeat(strarr, v).Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }
