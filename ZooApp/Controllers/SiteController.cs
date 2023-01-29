@@ -1,23 +1,42 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ZooApp.Models;
 
 namespace ZooApp.Controllers
 {
     public class SiteController : Controller
     {
+        private static Random random = new Random();
+        private object GenerateRandomId(int v)
+        {
+            string str = "abcdefghijklmnopqrstuvwxyz123456789";
+            return new string(Enumerable.Repeat(str, v).Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+        private void GetConnection()
+        {
+            Connection.ConnectToMongoService();
+            Connection.SiteCollection = Connection.Db.GetCollection<Site>("site");
+        }
         // GET: Site
         public ActionResult Index()
         {
-            return View();
+            GetConnection();
+            var filter = Builders<Site>.Filter.Ne("Id", "");
+            var result = Connection.SiteCollection.Find(filter).ToList();
+            return View(result);
         }
 
         // GET: Site/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            GetConnection();
+            var filter = Builders<Site>.Filter.Eq("Id", id);
+            var result = Connection.SiteCollection.Find(filter).FirstOrDefault();
+            return View(result);
         }
 
         // GET: Site/Create
@@ -32,10 +51,24 @@ namespace ZooApp.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                GetConnection();
+
+                Object id = GenerateRandomId(24);
+
+                Connection.SiteCollection.InsertOneAsync(new Site
+                {
+                    Id = id,
+                    Name = collection["Name"],
+                    Area = float.Parse(collection["Area"]),
+                    OpeningHours = collection["OpeningHours"],
+                });
 
                 return RedirectToAction("Index");
             }
+            /*catch ()
+            {
+
+            }*/
             catch
             {
                 return View();
@@ -43,18 +76,29 @@ namespace ZooApp.Controllers
         }
 
         // GET: Site/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            return View();
+            GetConnection();
+            var filter = Builders<Site>.Filter.Eq("Id", id);
+            var result = Connection.SiteCollection.Find(filter).FirstOrDefault();
+            return View(result);
         }
 
         // POST: Site/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(string id, FormCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
+                GetConnection();
+                var filter = Builders<Site>.Filter.Eq("Id", id);
+
+                var update = Builders<Site>.Update
+                    .Set("Name", collection["Name"])
+                    .Set("Area", float.Parse(collection["Area"]))
+                    .Set("OpeningHours", collection["OpeningHours"]);
+
+                var result = Connection.SiteCollection.UpdateOneAsync(filter, update);
 
                 return RedirectToAction("Index");
             }
@@ -65,18 +109,23 @@ namespace ZooApp.Controllers
         }
 
         // GET: Site/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
-            return View();
+            GetConnection();
+            var filter = Builders<Site>.Filter.Eq("Id", id);
+            var result = Connection.SiteCollection.Find(filter).FirstOrDefault();
+            return View(result);
         }
 
         // POST: Site/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(string id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                GetConnection();
+                var filter = Builders<Site>.Filter.Eq("Id", id);
+                var result = Connection.SiteCollection.DeleteOneAsync(filter);
 
                 return RedirectToAction("Index");
             }
