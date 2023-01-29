@@ -27,8 +27,8 @@ namespace ZooApp.Controllers
         public ActionResult Index()
         {
             GetConnection();
-            var filter = Builders<Animal>.Filter.Ne("Id", "");
-            var result = Connection.AnimalCollection.Find(filter).ToList();
+            FilterDefinition<Animal> filter = Builders<Animal>.Filter.Ne("Id", "");
+            List<Animal> result = Connection.AnimalCollection.Find(filter).ToList();
             return View(result);
         }
 
@@ -36,8 +36,8 @@ namespace ZooApp.Controllers
         public ActionResult Details(string id)
         {
             GetConnection();
-            var filter = Builders<Animal>.Filter.Eq("Id", id);
-            var result = Connection.AnimalCollection.Find(filter).FirstOrDefault();
+            FilterDefinition<Animal> filter = Builders<Animal>.Filter.Eq("Id", id);
+            Animal result = Connection.AnimalCollection.Find(filter).FirstOrDefault();
             return View(result);
         }
 

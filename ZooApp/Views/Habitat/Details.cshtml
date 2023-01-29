@@ -1,4 +1,4 @@
-﻿@model ZooApp.Models.Animal
+﻿@model ZooApp.Models.Habitat
 
 @{
     ViewBag.Title = "Details";
@@ -7,7 +7,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Animal</h4>
+    <h4>Habitat</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -19,11 +19,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Racial)
+            @Html.DisplayNameFor(model => model.Location)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Racial)
+            @Html.DisplayFor(model => model.Location)
         </dd>
 
         <dt>
@@ -35,19 +35,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Habitat)
+            @Html.DisplayNameFor(model => model.Capacity)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Habitat)
+            @Html.DisplayFor(model => model.Capacity)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.User)
+            @Html.DisplayNameFor(model => model.SiteName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User)
+            @Html.DisplayFor(model => model.SiteName)
         </dd>
 
     </dl>

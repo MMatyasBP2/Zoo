@@ -225,6 +225,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Controllers\AnimalController.cs" />
+    <Compile Include="Controllers\HabitatController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Global.asax.cs">
@@ -287,6 +288,11 @@
     <Content Include="Views\Site\Edit.cshtml" />
     <Content Include="Views\Site\Delete.cshtml" />
     <Content Include="Views\Site\Index.cshtml" />
+    <Content Include="Views\Habitat\Index.cshtml" />
+    <Content Include="Views\Habitat\Details.cshtml" />
+    <Content Include="Views\Habitat\Create.cshtml" />
+    <Content Include="Views\Habitat\Edit.cshtml" />
+    <Content Include="Views\Habitat\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
