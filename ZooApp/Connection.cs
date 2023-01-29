@@ -16,6 +16,11 @@ namespace ZooApp
         public static string MongoDatabase = "Zoo";
 
         public static IMongoCollection<Animal> AnimalCollection { get; set; }
+        public static IMongoCollection<Site> SiteCollection { get; set; }
+        public static IMongoCollection<Employee> EmployeeCollection { get; set; }
+        public static IMongoCollection<Food> FoodCollection { get; set; }
+        public static IMongoCollection<Habitat> HabitatCollection { get; set; }
+        public static IMongoCollection<User> UserCollection { get; set; }
 
         internal static void ConnectToMongoService()
         {

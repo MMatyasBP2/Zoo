@@ -226,10 +226,12 @@
     <Compile Include="Connection.cs" />
     <Compile Include="Controllers\AnimalController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Animal.cs" />
+    <Compile Include="Models\Site.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -276,6 +278,8 @@
     <Content Include="Views\Animal\Edit.cshtml" />
     <Content Include="Views\Animal\Details.cshtml" />
     <Content Include="Views\Animal\Delete.cshtml" />
+    <Content Include="Views\Site\Details.cshtml" />
+    <Content Include="Views\Site\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
