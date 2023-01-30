@@ -13,5 +13,6 @@ namespace ZooApp.Models
         public string Description { get; set; }
         public string Habitat { get; set; }
         public string User { get; set; }
+        public string FeedingTime { get; set; }
     }
 }

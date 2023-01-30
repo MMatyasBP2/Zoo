@@ -64,7 +64,8 @@ namespace ZooApp.Controllers
                     Racial = collection["Racial"],
                     Description = collection["Description"],
                     Habitat = collection["Habitat"],
-                    User = collection["User"]
+                    User = collection["User"],
+                    FeedingTime = collection["FeedingTime"]
                 });
 
                 return RedirectToAction("Index");
@@ -98,7 +99,8 @@ namespace ZooApp.Controllers
                     .Set("Racial", collection["Racial"])
                     .Set("Description", collection["Description"])
                     .Set("Habitat", collection["Habitat"])
-                    .Set("User", collection["User"]);
+                    .Set("User", collection["User"])
+                    .Set("FeedingTime", collection["FeedingTime"]);
 
                 var result = Connection.AnimalCollection.UpdateOneAsync(filter, update);
 
