@@ -9,7 +9,7 @@ using ZooApp.Models;
 
 namespace ZooApp.Controllers
 {
-    public class HabitatController : Controller
+    public class EmployeeController : Controller
     {
         private static Random random = new Random();
         private object GenerateRandomId(int v)
@@ -20,33 +20,33 @@ namespace ZooApp.Controllers
         private void GetConnection()
         {
             Connection.ConnectToMongoService();
-            Connection.HabitatCollection = Connection.Db.GetCollection<Habitat>("habitat");
+            Connection.EmployeeCollection = Connection.Db.GetCollection<Employee>("employee");
         }
-        // GET: Habitat
+        // GET: Employee
         public ActionResult Index()
         {
             GetConnection();
-            FilterDefinition<Habitat> filter = Builders<Habitat>.Filter.Ne("Id", "");
-            IEnumerable<Habitat> result = Connection.HabitatCollection.Find(filter).ToEnumerable();
+            var filter = Builders<Employee>.Filter.Ne("Id", "");
+            var result = Connection.EmployeeCollection.Find(filter).ToEnumerable();
             return View(result);
         }
 
-        // GET: Habitat/Details/5
+        // GET: Employee/Details/5
         public ActionResult Details(string id)
         {
             GetConnection();
-            FilterDefinition<Habitat> filter = Builders<Habitat>.Filter.Eq("Id", id);
-            Habitat result = Connection.HabitatCollection.Find(filter).FirstOrDefault();
+            var filter = Builders<Employee>.Filter.Eq("Id", id);
+            var result = Connection.EmployeeCollection.Find(filter).FirstOrDefault();
             return View(result);
         }
 
-        // GET: Habitat/Create
+        // GET: Employee/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Habitat/Create
+        // POST: Employee/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -56,17 +56,21 @@ namespace ZooApp.Controllers
 
                 Object id = GenerateRandomId(24);
 
-                Connection.HabitatCollection.InsertOneAsync(new Habitat
+                Connection.EmployeeCollection.InsertOneAsync(new Employee
                 {
                     Id = id,
                     Name = collection["Name"],
-                    Location = collection["Location"],
-                    Description = collection["Description"],
-                    Capacity = int.Parse(collection["Capacity"]),
-                    SiteName = collection["SiteName"]
+                    BirthDate = DateTime.Parse(collection["BirthDate"]),
+                    Sex = char.Parse(collection["Sex"]),
+                    Site = collection["Site"]
                 });
 
                 return RedirectToAction("Index");
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Wrong format!");
+                return View();
             }
             catch
             {
@@ -74,34 +78,38 @@ namespace ZooApp.Controllers
             }
         }
 
-        // GET: Habitat/Edit/5
+        // GET: Employee/Edit/5
         public ActionResult Edit(string id)
         {
             GetConnection();
-            FilterDefinition<Habitat> filter = Builders<Habitat>.Filter.Eq("Id", id);
-            Habitat result = Connection.HabitatCollection.Find(filter).FirstOrDefault();
+            var filter = Builders<Employee>.Filter.Eq("Id", id);
+            var result = Connection.EmployeeCollection.Find(filter).FirstOrDefault();
             return View(result);
         }
 
-        // POST: Habitat/Edit/5
+        // POST: Employee/Edit/5
         [HttpPost]
         public ActionResult Edit(string id, FormCollection collection)
         {
             try
             {
                 GetConnection();
-                FilterDefinition<Habitat> filter = Builders<Habitat>.Filter.Eq("Id", id);
+                var filter = Builders<Employee>.Filter.Eq("Id", id);
 
-                UpdateDefinition<Habitat> update = Builders<Habitat>.Update
+                var update = Builders<Employee>.Update
                     .Set("Name", collection["Name"])
-                    .Set("Location", collection["Location"])
-                    .Set("Desciption", collection["Description"])
-                    .Set("Capacity", int.Parse(collection["Capacity"]))
-                    .Set("SiteName", collection["SiteName"]);
+                    .Set("BirthDate", DateTime.Parse(collection["BirthDate"]))
+                    .Set("Sex", char.Parse(collection["Sex"]))
+                    .Set("Site", collection["Site"]);
 
-                Task<UpdateResult> result = Connection.HabitatCollection.UpdateOneAsync(filter, update);
+                var result = Connection.EmployeeCollection.UpdateOneAsync(filter, update);
 
                 return RedirectToAction("Index");
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Wrong format!");
+                return View();
             }
             catch
             {
@@ -109,24 +117,24 @@ namespace ZooApp.Controllers
             }
         }
 
-        // GET: Habitat/Delete/5
+        // GET: Employee/Delete/5
         public ActionResult Delete(string id)
         {
             GetConnection();
-            var filter = Builders<Habitat>.Filter.Eq("Id", id);
-            var result = Connection.HabitatCollection.Find(filter).FirstOrDefault();
+            var filter = Builders<Employee>.Filter.Eq("Id", id);
+            var result = Connection.EmployeeCollection.Find(filter).FirstOrDefault();
             return View(result);
         }
 
-        // POST: Habitat/Delete/5
+        // POST: Employee/Delete/5
         [HttpPost]
         public ActionResult Delete(string id, FormCollection collection)
         {
             try
             {
                 GetConnection();
-                var filter = Builders<Habitat>.Filter.Eq("Id", id);
-                var result = Connection.HabitatCollection.DeleteOneAsync(filter);
+                var filter = Builders<Employee>.Filter.Eq("Id", id);
+                var result = Connection.EmployeeCollection.DeleteOneAsync(filter);
 
                 return RedirectToAction("Index");
             }
