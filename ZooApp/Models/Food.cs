@@ -10,5 +10,6 @@ namespace ZooApp.Models
         public Object Id { get; set; }
         public string Name { get; set; }
         public bool IsDelicious { get; set; }
+        public string Company { get; set; }
     }
 }

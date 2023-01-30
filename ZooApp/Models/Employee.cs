@@ -12,5 +12,6 @@ namespace ZooApp.Models
         public DateTime BirthDate { get; set; }
         public char Sex { get; set; }
         public string Site { get; set; }
+        public string Post { get; set; }
     }
 }
